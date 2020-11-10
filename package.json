@@ -1,0 +1,13 @@
+{
+  "name": "com.github.oparaskos.unity.hestia.material.importer",
+  "displayName": "UMA",
+  "description": "Hestia | Unity Material Library",
+  "licenseSpdxId": "MIT",
+  "licenseName": "MIT License",
+  "repoUrl": "https://github.com/oparaskos/unity-material-library",
+  "version": "1.0.0",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0",
+    "com.unity.modules.imgui": "1.0.0"
+  }
+}
