@@ -29,7 +29,7 @@ namespace HestiaMaterialImporter.CC0
                         .Take(10)
                         .Select(kvp => CC0MaterialOption.Create(kvp.Key, kvp.Value, favicon))
                        ).Result.ToList();
-                Debug.LogFormat("Got {0} results", response.Assets.Count);
+                // Debug.LogFormat("Got {0} results", response.Assets.Count);
                 return results;
             }
             catch (Exception e)

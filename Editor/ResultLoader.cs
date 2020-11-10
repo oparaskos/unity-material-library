@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
+using UnityEngine;
 
 namespace HestiaMaterialImporter
 {
@@ -33,6 +34,7 @@ namespace HestiaMaterialImporter
             }
             catch (Exception e)
             {
+                Debug.LogException(e);
                 failed = true;
             }
         }

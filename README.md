@@ -3,10 +3,12 @@
 # Hestia | Unity Material Library UI
 material loader ui for Unity for online sources of materials
 
-Import materials within the editor from 
+**Import materials within the editor from **
 * [CC0Textures](https://cc0textures.com/)
 
-Generate Materials for lit shaders in HDRP, URP and Standard render pipelines.
+**Generate Materials for lit shaders in HDRP, URP and Standard render pipelines.**
+
+![Example](Documentation~/example.png)
 
 
 ### Using Git
@@ -21,7 +23,7 @@ in the "dependencies" section add:
 {
   "dependencies": {
       ...
-      "com.github.oparaskos.unity.hestia.material.importer":"git@github.com:oparaskos/unity-material-library.git"
+      "com.github.oparaskos.unity.hestia.material.importer": "git+https://github.com/oparaskos/unity-material-library.git#0.1.1",
       ...
   }
 }
