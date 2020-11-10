@@ -1,2 +1,4 @@
 *.cs text eol=crlf
 *.md text eol=crlf
+*.asmdef text eol=crlf
+*.meta text eol=crlf

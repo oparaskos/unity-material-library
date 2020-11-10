@@ -1,0 +1,10 @@
+{
+    "name": "HestiaMaterialImporter.Editor",
+    "references": [
+      "HestiaMaterialImporter"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
