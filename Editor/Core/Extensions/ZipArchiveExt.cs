@@ -1,6 +1,7 @@
 using System.IO.Compression;
 using UnityEditor;
 using UnityEngine;
+using HestiaMaterialImporter.Core;
 
 namespace HestiaMaterialImporter.Extensions
 {

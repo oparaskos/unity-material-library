@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{1ABECF5A-F4A4-1564-BF9E-2EB59E4C0A10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -55,7 +56,60 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\**" />
+    <Compile Include="Editor\API.meta" />
+    <Compile Include="Editor\API\BaseMaterialOption.cs" />
+    <Compile Include="Editor\API\BaseMaterialOption.cs.meta" />
+    <Compile Include="Editor\API\Extensions.meta" />
+    <Compile Include="Editor\API\Extensions\ByteArrayExt.cs" />
+    <Compile Include="Editor\API\Extensions\ByteArrayExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\ColorExt.cs" />
+    <Compile Include="Editor\API\Extensions\ColorExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\DirectoryExt.cs" />
+    <Compile Include="Editor\API\Extensions\DirectoryExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\EnumerableExt.cs" />
+    <Compile Include="Editor\API\Extensions\EnumerableExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\StreamExt.cs" />
+    <Compile Include="Editor\API\Extensions\StreamExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\StringExt.cs" />
+    <Compile Include="Editor\API\Extensions\StringExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\Texture2DExt.cs" />
+    <Compile Include="Editor\API\Extensions\Texture2DExt.cs.meta" />
+    <Compile Include="Editor\API\Extensions\ZipArchiveExt.cs" />
+    <Compile Include="Editor\API\Extensions\ZipArchiveExt.cs.meta" />
+    <Compile Include="Editor\API\HestiaMaterialImporter.API.Editor.asmdef.meta" />
+    <Compile Include="Editor\API\ImageNames.cs" />
+    <Compile Include="Editor\API\ImageNames.cs.meta" />
+    <Compile Include="Editor\API\IMaterialOption.cs" />
+    <Compile Include="Editor\API\IMaterialOption.cs.meta" />
+    <Compile Include="Editor\API\IMaterialsAdapter.cs" />
+    <Compile Include="Editor\API\IMaterialsAdapter.cs.meta" />
+    <Compile Include="Editor\API\ImporterUtils.cs" />
+    <Compile Include="Editor\API\ImporterUtils.cs.meta" />
+    <Compile Include="Editor\API\MaskMap.cs" />
+    <Compile Include="Editor\API\MaskMap.cs.meta" />
+    <Compile Include="Editor\API\PreviewImage.cs" />
+    <Compile Include="Editor\API\PreviewImage.cs.meta" />
+    <Compile Include="Editor\API\ResultLoader.cs" />
+    <Compile Include="Editor\API\ResultLoader.cs.meta" />
+    <Compile Include="Editor\CC0Textures.meta" />
+    <Compile Include="Editor\CC0Textures\CC0Asset.cs" />
+    <Compile Include="Editor\CC0Textures\CC0Asset.cs.meta" />
+    <Compile Include="Editor\CC0Textures\CC0Download.cs" />
+    <Compile Include="Editor\CC0Textures\CC0Download.cs.meta" />
+    <Compile Include="Editor\CC0Textures\CC0MaterialOption.cs" />
+    <Compile Include="Editor\CC0Textures\CC0MaterialOption.cs.meta" />
+    <Compile Include="Editor\CC0Textures\CC0MaterialsAdapter.cs" />
+    <Compile Include="Editor\CC0Textures\CC0MaterialsAdapter.cs.meta" />
+    <Compile Include="Editor\CC0Textures\CC0Response.cs" />
+    <Compile Include="Editor\CC0Textures\CC0Response.cs.meta" />
+    <Compile Include="Editor\csc.rsp" />
+    <Compile Include="Editor\csc.rsp.meta" />
+    <Compile Include="Editor\HestiaMaterialImporter.Editor.asmdef" />
+    <Compile Include="Editor\HestiaMaterialImporter.Editor.asmdef.meta" />
+    <Compile Include="Editor\MaterialImporterWindow.cs" />
+    <Compile Include="Editor\MaterialImporterWindow.cs.meta" />
+    <Compile Include="Editor\Preview_NoMaterial.png" />
+    <Compile Include="Editor\Preview_NoMaterial.png.meta" />
     <Compile Include="Runtime\**" />
     <Compile Include="Tests\**" />
   </ItemGroup>
@@ -257,9 +311,6 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\HDRP Test\Library\PackageCache\com.unity.render-pipelines.core@8.2.0\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\HDRP Test\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
@@ -678,15 +729,6 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>..\HDRP Test\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="HestiaMaterialImporter.Editor">
-      <HintPath>..\HDRP Test\Library\ScriptAssemblies\HestiaMaterialImporter.Editor.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{B7897399-6E4D-81D7-5AC6-0ABB1D8F2BD1}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

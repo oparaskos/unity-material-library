@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
 	static class MaskMap
 	{

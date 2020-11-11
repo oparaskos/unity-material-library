@@ -1,4 +1,4 @@
-﻿using HestiaMaterialImporter;
+﻿using HestiaMaterialImporter.Extensions;
 using NUnit.Framework;
 using UnityEngine;
 

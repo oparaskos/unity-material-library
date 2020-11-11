@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
     public interface IMaterialOption
     {

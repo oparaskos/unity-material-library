@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using HestiaMaterialImporter.Extensions;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
     public class ImporterUtils
     {

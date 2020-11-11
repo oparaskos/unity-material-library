@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
     public abstract class BaseMaterialOption : IMaterialOption
     {

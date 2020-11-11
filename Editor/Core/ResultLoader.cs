@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
     class ResultLoader
     {

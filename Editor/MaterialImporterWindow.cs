@@ -4,9 +4,10 @@ using UnityEditor;
 using System.Linq;
 using System.Threading;
 using HestiaMaterialImporter.CC0;
+using HestiaMaterialImporter.Core;
 using HestiaMaterialImporter.Extensions;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Editor
 {
     public class MaterialImporterWindow : EditorWindow
     {
