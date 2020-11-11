@@ -58,3 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Thumbs.db
+Thumbs.db.meta
+obj.meta
+
+Temp.meta

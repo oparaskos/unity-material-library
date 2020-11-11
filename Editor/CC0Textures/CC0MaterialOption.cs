@@ -3,7 +3,7 @@ using System.Net;
 using UnityEngine;
 using UnityEditor;
 using System.Threading.Tasks;
-using System.IO.Compression;
+using HestiaMaterialImporter.Extensions;
 
 namespace HestiaMaterialImporter.CC0
 {

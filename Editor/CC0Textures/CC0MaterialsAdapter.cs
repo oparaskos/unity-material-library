@@ -6,6 +6,7 @@ using System;
 using System.Net;
 using UnityEngine;
 using System.Threading.Tasks;
+using HestiaMaterialImporter.Extensions;
 
 namespace HestiaMaterialImporter.CC0
 {

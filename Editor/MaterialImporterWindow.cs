@@ -4,6 +4,7 @@ using UnityEditor;
 using System.Linq;
 using System.Threading;
 using HestiaMaterialImporter.CC0;
+using HestiaMaterialImporter.Extensions;
 
 namespace HestiaMaterialImporter
 {

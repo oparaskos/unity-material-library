@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class StringExt { 
+	public static class StringExt { 
 		public async static Task<byte[]> BytesFromUriAsync(this string uri)
 		{
 			WebRequest webRequest = WebRequest.Create(uri);

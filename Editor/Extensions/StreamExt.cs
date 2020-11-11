@@ -1,9 +1,9 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class StreamExt
+	public static class StreamExt
 	{
 		public static byte[] ReadFully(this Stream input)
 		{

@@ -4,9 +4,9 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class Texture2DExt
+	public static class Texture2DExt
 	{
 
 		public static Texture2D ToAsset(this Texture2D texture, string path, TextureImporterType type = TextureImporterType.Default)

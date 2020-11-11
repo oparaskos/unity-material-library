@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class ColorExt
+	public static class ColorExt
 	{
 		public static Color Invert(this Color original)
 		{

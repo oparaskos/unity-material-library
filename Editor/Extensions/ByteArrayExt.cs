@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class ByteArrayExt
+	public static class ByteArrayExt
 	{
 		public static Texture2D ToTexture2D(this byte[] rawData)
 		{
