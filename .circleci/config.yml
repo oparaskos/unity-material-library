@@ -9,7 +9,7 @@ jobs:
           path: unity-material-library
       - run: apt-get install -y ssh git xvfb
       - run: git clone https://github.com/oparaskos/unity-material-library-test-project.git
-      - run: xvfb-run /opt/unity/Editor/Unity -projectPath unity-material-library-test-project -batchmode -runTests -nographics
+      - run: xvfb-run /opt/unity/Editor/Unity -projectPath unity-material-library-test-project -batchmode -runTests -nographics -logFile out.log -username $UNITY_USERNAME -password $UNITY_PASSWORD –quit
 
 workflows:
   test:
