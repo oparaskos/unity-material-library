@@ -1,7 +1,9 @@
 {
   "name": "com.github.oparaskos.unity.hestia.material.importer",
-  "displayName": "Hestia",
-  "description": "Hestia | Unity Material Library",
+  "displayName": "Hestia | Unity Material Library",
+  "description": "Browse, Search and inport materials from online sources.",
+  "unity": "2020.1",
+  "unityRelease": "0a12",
   "licenseSpdxId": "MIT",
   "licenseName": "MIT License",
   "repoUrl": "https://github.com/oparaskos/unity-material-library",
