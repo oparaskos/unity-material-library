@@ -7,7 +7,7 @@
   "licenseSpdxId": "MIT",
   "licenseName": "MIT License",
   "repoUrl": "https://github.com/oparaskos/unity-material-library",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0",
     "com.unity.modules.imgui": "1.0.0"
