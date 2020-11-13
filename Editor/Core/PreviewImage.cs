@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using HestiaMaterialImporter.Extensions;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
 	public class PreviewImage
 	{

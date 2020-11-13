@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEditor;
 using System.Threading.Tasks;
-using System.IO.Compression;
+using HestiaMaterialImporter.Extensions;
+using HestiaMaterialImporter.Core;
 
 namespace HestiaMaterialImporter.CC0
 {

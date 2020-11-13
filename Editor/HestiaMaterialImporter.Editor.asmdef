@@ -1,8 +1,8 @@
 {
     "name": "HestiaMaterialImporter.Editor",
     "references": [
-      "HestiaMaterialImporter",
-      "System.IO.Compression"
+      "System.IO.Compression",
+      "System.IO.Compression.FileSystem"
     ],
     "includePlatforms": [
         "Editor"

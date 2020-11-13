@@ -4,17 +4,28 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using System.Runtime.Remoting.Messaging;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
-    class ResultLoader
+    [Serializable]
+    public class ResultLoader
     {
-        public Thread thread = null;
         private IEnumerable<IMaterialOption> _results;
-        public bool completed = false;
+        public bool _completed = false;
         public bool failed = false;
         public string searchString;
+
+        [NonSerialized]
+        public Thread thread = null;
+        [NonSerialized]
         public IMaterialsAdapter[] adapters;
+
+        public bool completed {
+            get {
+                return _results != null && _completed;
+            }
+        }
 
         public IEnumerable<IMaterialOption> Results
         {
@@ -30,7 +41,7 @@ namespace HestiaMaterialImporter
             {
                 _results = Task.WhenAll(adapters
                     .Select(it => it.GetMaterials(searchString))).Result.SelectMany(it => it);
-                completed = true;
+                _completed = true;
             }
             catch (Exception e)
             {

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HestiaMaterialImporter.CC0
+namespace HestiaMaterialImporter.Extensions
 {
-    static class EnumerableExt
+    public static class EnumerableExt
     {
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO.Compression;
 using UnityEditor;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Core
 {
     public class ImageNames
     {

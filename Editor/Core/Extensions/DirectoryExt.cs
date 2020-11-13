@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class DirectoryExt
+	public static class DirectoryExt
 	{
 		public static DirectoryInfo MakeParents(this string path)
 		{

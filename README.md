@@ -23,7 +23,7 @@ in the "dependencies" section add:
 {
   "dependencies": {
       ...
-      "com.github.oparaskos.unity.hestia.material.importer": "git+https://github.com/oparaskos/unity-material-library.git#0.1.1",
+      "com.github.oparaskos.unity.hestia.material.importer": "git+https://github.com/oparaskos/unity-material-library.git#0.1.3",
       ...
   }
 }

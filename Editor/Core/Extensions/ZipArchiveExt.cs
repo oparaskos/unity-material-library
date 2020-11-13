@@ -1,10 +1,11 @@
 using System.IO.Compression;
 using UnityEditor;
 using UnityEngine;
+using HestiaMaterialImporter.Core;
 
-namespace HestiaMaterialImporter
+namespace HestiaMaterialImporter.Extensions
 {
-	static class ZipArchiveExt
+	public static class ZipArchiveExt
     {
         public static Texture2D ImportFromZip(this ZipArchive package, string name, ImageNames type)
         {

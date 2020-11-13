@@ -1,0 +1,15 @@
+{
+  "name": "HestiaMaterialImporter.Editor.Tests",
+  "references": [
+    "HestiaMaterialImporter.Editor",
+    "HestiaMaterialImporter",
+    "System.IO.Compression"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}
