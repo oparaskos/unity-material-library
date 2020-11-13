@@ -6,18 +6,23 @@ using System.Threading;
 using HestiaMaterialImporter.CC0;
 using HestiaMaterialImporter.Core;
 using HestiaMaterialImporter.Extensions;
+using System;
+using UnityEngine.UIElements;
 
 namespace HestiaMaterialImporter.Editor
 {
+    [EditorWindowTitle(title = "Material Importer", icon = "Material Icon")]
     public class MaterialImporterWindow : EditorWindow
     {
-        private readonly string _windowTitle = "Material Importer";
-        ResultLoader loader = null;
+
         string searchString;
         Vector2 scrollPos;
+
+        [NonSerialized]
         IMaterialsAdapter[] adapters = {
             new CC0MaterialsAdapter()
         };
+        ResultLoader loader = null;
 
         [MenuItem("Window/Material Importer")]
         static void Open()
@@ -28,20 +33,29 @@ namespace HestiaMaterialImporter.Editor
 
         public void Initialize()
         {
-            titleContent = new GUIContent(_windowTitle);
+            titleContent = new GUIContent("Material Importer");
+            titleContent.image = EditorGUIUtility.IconContent("PreMatSphere", "Material Importer").image;
+        }
 
+        private void OnKeyPress(KeyDownEvent evt)
+        {
+            Debug.Log(evt);
         }
 
         void OnGUI()
         {
+
             GUIStyle s = new GUIStyle(GUI.skin.textField)
             {
                 fontSize = 25,
             };
             EditorGUILayout.BeginHorizontal("Box");
-            searchString = EditorGUILayout.TextField(searchString, s, GUILayout.Height(30));
-            if (GUILayout.Button(EditorGUIUtility.IconContent("Search Icon", "|Search"), GUILayout.Height(30), GUILayout.Width(30)))
+            string newSearchString = EditorGUILayout.DelayedTextField(searchString, s, GUILayout.Height(30));
+            if (
+                newSearchString != searchString || 
+                GUILayout.Button(EditorGUIUtility.IconContent("Search Icon", "|Search"), GUILayout.Height(30), GUILayout.Width(30)))
             {
+                searchString = newSearchString;
                 if (loader == null || loader.thread?.ThreadState == ThreadState.Stopped)
                 {
                     loader = new ResultLoader()
@@ -88,6 +102,7 @@ namespace HestiaMaterialImporter.Editor
                 {
                     EditorGUILayout.LabelField("Loading...");
                 }
+                EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
             }
             EditorGUILayout.EndVertical();
         }
