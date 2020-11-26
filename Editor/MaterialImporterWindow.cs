@@ -11,7 +11,9 @@ using UnityEngine.UIElements;
 
 namespace HestiaMaterialImporter.Editor
 {
+#if UNITY_2020_2_OR_NEWER
     [EditorWindowTitle(title = "Material Importer", icon = "Material Icon")]
+#endif
     public class MaterialImporterWindow : EditorWindow
     {
 
