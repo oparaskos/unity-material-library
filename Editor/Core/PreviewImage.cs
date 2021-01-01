@@ -26,9 +26,10 @@ namespace HestiaMaterialImporter.Core
 
 		public virtual Texture2D ToTexture2D()
 		{
-			if (textureContent == null)
+			if (textureContent == null && futureContent != null) {
 				textureContent = futureContent.ToTexture2D();
-			futureContent = null;
+				futureContent = null;
+			}
 			return textureContent;
 		}
 
@@ -53,7 +54,9 @@ namespace HestiaMaterialImporter.Core
 			}
 
 			public override Texture2D ToTexture2D() {
-				return (EditorGUIUtility.IconContent(iconName).image) as Texture2D;
+				if (textureContent == null)
+					textureContent = (EditorGUIUtility.IconContent(iconName).image) as Texture2D;
+				return textureContent;
 			}
 		}
 	}

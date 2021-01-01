@@ -12,6 +12,7 @@ namespace HestiaMaterialImporter.Core
     public class ResultLoader
     {
         private IEnumerable<IMaterialOption> _results;
+        private IEnumerable<Task<IEnumerable<IMaterialOption>>> _tasks;
         public bool _completed = false;
         public bool failed = false;
         public string searchString;
@@ -31,16 +32,25 @@ namespace HestiaMaterialImporter.Core
         {
             get
             {
-                return _results?.Select(it => it.InitOnMainThread());
+                if(_results != null) {
+                    return _results?.Select(it => it.InitOnMainThread());
+                }
+                return _tasks
+                    .Where(task => task.IsCompleted)
+                    .SelectMany(task => task.Result)
+                    .Select(it => it.InitOnMainThread());
             }
         }
 
         public void LoadResults()
         {
+            _completed = false;
+            _results = null;
             try
             {
-                _results = Task.WhenAll(adapters
-                    .Select(it => it.GetMaterials(searchString))).Result.SelectMany(it => it);
+                _tasks = adapters
+                    .Select(it => it.GetMaterials(searchString));
+                _results = Task.WhenAll(_tasks).Result.SelectMany(it => it);
                 _completed = true;
             }
             catch (Exception e)

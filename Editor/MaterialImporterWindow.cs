@@ -37,7 +37,7 @@ namespace HestiaMaterialImporter.Editor
         {
             titleContent = new GUIContent("Material Importer");
             titleContent.image = EditorGUIUtility.IconContent("PreMatSphere", "Material Importer").image;
-        
+
         }
 
         private void OnKeyPress(KeyDownEvent evt)
@@ -48,7 +48,8 @@ namespace HestiaMaterialImporter.Editor
 
         void OnGUI()
         {
-            foreach(var adapter in adapters) {
+            foreach (var adapter in adapters)
+            {
                 adapter.OnActivate();
             }
             hestiaSettings = HestiaSettings.GetOrCreateSettings();
@@ -59,7 +60,7 @@ namespace HestiaMaterialImporter.Editor
             EditorGUILayout.BeginHorizontal("Box");
             string newSearchString = EditorGUILayout.DelayedTextField(searchString, s, GUILayout.Height(30));
             if (
-                newSearchString != searchString || 
+                newSearchString != searchString ||
                 GUILayout.Button(EditorGUIUtility.IconContent("Search Icon", "|Search"), GUILayout.Height(30), GUILayout.Width(30)))
             {
                 searchString = newSearchString;
@@ -90,10 +91,16 @@ namespace HestiaMaterialImporter.Editor
                 {
                     EditorGUILayout.LabelField("Something went wrong!");
                 }
-                else if (loader.completed)
+                else
                 {
-                    if (loader.Results.Count() == 0)
+                    if (!loader.completed)
+                    {
+                        EditorGUILayout.LabelField("Loading...");
+                    }
+                    if (loader.completed && loader.Results.Count() == 0)
+                    {
                         EditorGUILayout.LabelField($"No Results matched your query {searchString}.");
+                    }
 
                     foreach (IEnumerable<IMaterialOption> row in loader.Results.Chunk(numPerRow))
                     {
@@ -105,15 +112,9 @@ namespace HestiaMaterialImporter.Editor
                         EditorGUILayout.EndHorizontal();
                     }
                 }
-                else
-                {
-                    EditorGUILayout.LabelField("Loading...");
-                }
-                EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
 
-                if (hestiaSettings?.m_LocalLibraryPaths?.Count() > 0) {
-                    string x = String.Format("Also including local paths: {0}", String.Join(", ", hestiaSettings.m_LocalLibraryPaths));
-                    EditorGUILayout.LabelField(x);
+                foreach (IMaterialsAdapter adapter in adapters) {
+                    adapter.OnGUI();
                 }
             }
             EditorGUILayout.EndVertical();

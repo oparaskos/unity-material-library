@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using UnityEngine;
+using UnityEditor;
 using System.Threading.Tasks;
 using HestiaMaterialImporter.Extensions;
 using HestiaMaterialImporter.Core;
@@ -20,18 +21,24 @@ namespace HestiaMaterialImporter.Local
         
         public void OnActivate() {
             settings = HestiaSettings.GetOrCreateSettings();
-        } 
+        }
+
+        public void OnGUI() {
+            if (settings?.m_LocalLibraryPaths?.Count() > 0)
+            {
+                string x = String.Format("Including local library paths: {0}", String.Join(", ", settings.m_LocalLibraryPaths));
+                EditorGUILayout.LabelField(x);
+            }
+        }
 
         public async Task<List<IMaterialOption>> GetMaterialsInPath(string path)
         {
-            Debug.Log("askjdhaksdjh");
             var example = await LocalMaterialOption.Create("test", favicon);
             return new List<IMaterialOption>() { example };
         }
         
-        public async Task<List<IMaterialOption>> GetMaterials(string name)
+        public async Task<IEnumerable<IMaterialOption>> GetMaterials(string name)
         {
-            Debug.Log("aaaaa");
             if (settings?.m_LocalLibraryPaths != null) {
                 IEnumerable<Task<List<IMaterialOption>>> tasks = settings.m_LocalLibraryPaths.ToList().Select(path => GetMaterialsInPath(path));
                 List<IMaterialOption> results = (await Task.WhenAll(tasks))

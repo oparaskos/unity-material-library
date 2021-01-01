@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using UnityEngine;
+using UnityEditor;
 using System.Threading.Tasks;
 using HestiaMaterialImporter.Extensions;
 using HestiaMaterialImporter.Core;
@@ -18,7 +19,11 @@ namespace HestiaMaterialImporter.CC0
 
         public void OnActivate() {}
 
-        public async Task<List<IMaterialOption>> GetMaterials(string name)
+        public void OnGUI() {
+            EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
+        }
+
+        public async Task<IEnumerable<IMaterialOption>> GetMaterials(string name)
         {
             WebRequest webRequest = WebRequest.Create($"https://cc0textures.com/api/v1/full_json?q={name}&type=PhotoTexturePBR&limit=10&sort=Popular");
             WebResponse webResp = await webRequest.GetResponseAsync();
