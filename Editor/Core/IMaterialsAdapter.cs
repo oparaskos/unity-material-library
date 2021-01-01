@@ -7,5 +7,6 @@ namespace HestiaMaterialImporter.Core
     {
         PreviewImage Favicon { get; }
         Task<List<IMaterialOption>> GetMaterials(string name);
+        void OnActivate();
     }
 }

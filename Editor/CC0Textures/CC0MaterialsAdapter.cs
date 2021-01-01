@@ -16,6 +16,8 @@ namespace HestiaMaterialImporter.CC0
         static private Task<PreviewImage> favicon = PreviewImage.LoadFavicon(@"cc0textures.com");
         public PreviewImage Favicon { get { return favicon.Result; } }
 
+        public void OnActivate() {}
+
         public async Task<List<IMaterialOption>> GetMaterials(string name)
         {
             WebRequest webRequest = WebRequest.Create($"https://cc0textures.com/api/v1/full_json?q={name}&type=PhotoTexturePBR&limit=10&sort=Popular");

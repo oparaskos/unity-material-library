@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System.Threading;
-using HestiaMaterialImporter.CC0;
 using HestiaMaterialImporter.Core;
 using HestiaMaterialImporter.Extensions;
 using System;
@@ -16,15 +15,16 @@ namespace HestiaMaterialImporter.Editor
 #endif
     public class MaterialImporterWindow : EditorWindow
     {
-
         string searchString;
         Vector2 scrollPos;
 
         [NonSerialized]
         IMaterialsAdapter[] adapters = {
-            new CC0MaterialsAdapter()
+            new CC0.CC0MaterialsAdapter(),
+            new Local.LocalLibraryAdapter()
         };
         ResultLoader loader = null;
+        HestiaSettings hestiaSettings;
 
         [MenuItem("Window/Material Importer")]
         static void Open()
@@ -37,6 +37,7 @@ namespace HestiaMaterialImporter.Editor
         {
             titleContent = new GUIContent("Material Importer");
             titleContent.image = EditorGUIUtility.IconContent("PreMatSphere", "Material Importer").image;
+        
         }
 
         private void OnKeyPress(KeyDownEvent evt)
@@ -44,9 +45,13 @@ namespace HestiaMaterialImporter.Editor
             Debug.Log(evt);
         }
 
+
         void OnGUI()
         {
-
+            foreach(var adapter in adapters) {
+                adapter.OnActivate();
+            }
+            hestiaSettings = HestiaSettings.GetOrCreateSettings();
             GUIStyle s = new GUIStyle(GUI.skin.textField)
             {
                 fontSize = 25,
@@ -105,6 +110,11 @@ namespace HestiaMaterialImporter.Editor
                     EditorGUILayout.LabelField("Loading...");
                 }
                 EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
+
+                if (hestiaSettings?.m_LocalLibraryPaths?.Count() > 0) {
+                    string x = String.Format("Also including local paths: {0}", String.Join(", ", hestiaSettings.m_LocalLibraryPaths));
+                    EditorGUILayout.LabelField(x);
+                }
             }
             EditorGUILayout.EndVertical();
         }

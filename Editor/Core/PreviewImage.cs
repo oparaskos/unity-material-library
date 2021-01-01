@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEditor;
 using HestiaMaterialImporter.Extensions;
 
 namespace HestiaMaterialImporter.Core
 {
+
 	public class PreviewImage
 	{
 		private byte[] futureContent;
@@ -14,7 +16,15 @@ namespace HestiaMaterialImporter.Core
 			this.futureContent = futureContent;
 		}
 
-		public Texture2D ToTexture2D()
+		private PreviewImage(Texture content)
+		{
+			this.textureContent = content as Texture2D;
+		}
+		private PreviewImage()
+		{
+		}
+
+		public virtual Texture2D ToTexture2D()
 		{
 			if (textureContent == null)
 				textureContent = futureContent.ToTexture2D();
@@ -31,5 +41,20 @@ namespace HestiaMaterialImporter.Core
 		{
 			return LoadUri($"https://icons.duckduckgo.com/ip2/{url}.ico");
         }
+
+		public static PreviewImage LoadIcon(string iconName) {
+			return new IconPreviewImage(iconName);
+		}
+
+		public class IconPreviewImage : PreviewImage {
+			private string iconName;
+			public IconPreviewImage(string iconName) {
+				this.iconName = iconName;
+			}
+
+			public override Texture2D ToTexture2D() {
+				return (EditorGUIUtility.IconContent(iconName).image) as Texture2D;
+			}
+		}
 	}
 }

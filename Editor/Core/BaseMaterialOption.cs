@@ -25,7 +25,7 @@ namespace HestiaMaterialImporter.Core
                 GUILayout.Box(previewImage.ToTexture2D(), GUILayout.Width(previewImageSize), GUILayout.Height(previewImageSize));
                 GUI.DrawTexture(new Rect(rect.x, rect.y, (rect.width * 2) - orgImgSize, orgImgSize), orgImage.ToTexture2D(), ScaleMode.ScaleToFit);
             }
-            else
+            else if(orgImage != null)
             {
                 GUILayout.Box(orgImage.ToTexture2D(), GUILayout.Width(previewImageSize), GUILayout.Height(previewImageSize));
             }
@@ -43,8 +43,8 @@ namespace HestiaMaterialImporter.Core
 
         public IMaterialOption InitOnMainThread()
         {
-            orgImage.ToTexture2D();
-            previewImage.ToTexture2D();
+            orgImage?.ToTexture2D();
+            previewImage?.ToTexture2D();
             return this;
         }
     }
