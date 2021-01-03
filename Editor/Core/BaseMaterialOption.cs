@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
+using HestiaMaterialImporter.Extensions;
 
 namespace HestiaMaterialImporter.Core
 {
@@ -32,14 +34,31 @@ namespace HestiaMaterialImporter.Core
             selectedVariant = EditorGUILayout.Popup(selectedVariant, variants);
             if (GUILayout.Button(new GUIContent("Import")))
             {
-                DoImport();
+                Import();
             }
             EditorGUILayout.EndVertical();
             EditorGUI.EndChangeCheck();
             return rect;
         }
 
-        protected abstract void DoImport();
+        private void Import() {
+            try {
+                // Ensure folder heirarchy
+                EditorUtility.DisplayProgressBar("Importing", "Creating Folders...", 0f);
+                string texturePath = $"{Application.dataPath}/Textures/{name}/";
+                Debug.Log($"Textures will be stored at '{texturePath}'");
+                texturePath.MakeParents();
+                string materialPath = $"{Application.dataPath}/Materials/";
+                Debug.Log($"Materials will be stored at '{materialPath}'");
+                materialPath.MakeParents();
+                DoImport(texturePath, materialPath);
+            } catch (Exception e) {
+                Debug.LogError(e);
+                EditorGUILayout.HelpBox("Error importing", MessageType.Error);
+            }
+        }
+
+        protected abstract void DoImport(string texturePath, string materialPath);
 
         public IMaterialOption InitOnMainThread()
         {

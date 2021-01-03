@@ -16,33 +16,44 @@ namespace HestiaMaterialImporter.CC0
     {
         static private Task<PreviewImage> favicon = PreviewImage.LoadFavicon(@"cc0textures.com");
         public PreviewImage Favicon { get { return favicon.Result; } }
+        public string statusLine = null;
 
         public void OnActivate() {}
 
         public void OnGUI() {
             EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
+            if (statusLine != null)
+                EditorGUILayout.LabelField(statusLine);
         }
 
-        public async Task<IEnumerable<IMaterialOption>> GetMaterials(string name)
+        public async Task<IEnumerable<Task<IMaterialOption>>> GetMaterials(string name)
         {
-            WebRequest webRequest = WebRequest.Create($"https://cc0textures.com/api/v1/full_json?q={name}&type=PhotoTexturePBR&limit=10&sort=Popular");
-            WebResponse webResp = await webRequest.GetResponseAsync();
-            StreamReader reader = new StreamReader(webResp.GetResponseStream());
-            string responseString = await reader.ReadToEndAsync();
-            if (responseString.Contains("\"Assets\": []")) return new List<IMaterialOption>();
+            string responseString = "None";
             try
             {
+                statusLine = "Searching cc0textures.com";
+                WebRequest webRequest = WebRequest.Create($"https://cc0textures.com/api/v1/full_json?q={name}&type=PhotoTexturePBR&limit=10&sort=Popular");
+                WebResponse webResp = await webRequest.GetResponseAsync();
+                statusLine = "Got response from cc0textures.com";
+                
+                StreamReader reader = new StreamReader(webResp.GetResponseStream());
+                responseString = await reader.ReadToEndAsync();
+                statusLine = "Reading response from cc0textures.com";
+
+                if (responseString.Contains("\"Assets\": []")) return new List<Task<IMaterialOption>>();
+                statusLine = "Processing response from cc0textures.com";
+                
                 CC0Response response = JsonConvert.DeserializeObject<CC0Response>(responseString);
-                List<IMaterialOption> results
-                    = Task.WhenAll(response.Assets
+                IEnumerable<Task<IMaterialOption>> results
+                    = response.Assets
                         .Take(10)
-                        .Select(kvp => CC0MaterialOption.Create(kvp.Key, kvp.Value, favicon))
-                       ).Result.ToList();
-                // Debug.LogFormat("Got {0} results", response.Assets.Count);
+                        .Select(kvp => CC0MaterialOption.Create(kvp.Key, kvp.Value, favicon));
+                statusLine = String.Format("Got {0} results from cc0textures.com", response.Assets.Count);
                 return results;
             }
             catch (Exception e)
             {
+                Debug.LogError(e);
                 Debug.LogError(responseString);
                 throw e;
             }

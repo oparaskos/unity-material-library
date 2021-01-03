@@ -63,18 +63,7 @@ namespace HestiaMaterialImporter.Editor
                 newSearchString != searchString ||
                 GUILayout.Button(EditorGUIUtility.IconContent("Search Icon", "|Search"), GUILayout.Height(30), GUILayout.Width(30)))
             {
-                searchString = newSearchString;
-                if (loader == null || loader.thread?.ThreadState == ThreadState.Stopped)
-                {
-                    loader = new ResultLoader()
-                    {
-                        searchString = searchString,
-                        adapters = adapters,
-                    };
-
-                    loader.thread = new Thread(new ThreadStart(loader.LoadResults));
-                    loader.thread.Start();
-                }
+                OnSearchButton(newSearchString);
             }
             EditorGUILayout.EndHorizontal();
 
@@ -93,24 +82,7 @@ namespace HestiaMaterialImporter.Editor
                 }
                 else
                 {
-                    if (!loader.completed)
-                    {
-                        EditorGUILayout.LabelField("Loading...");
-                    }
-                    if (loader.completed && loader.Results.Count() == 0)
-                    {
-                        EditorGUILayout.LabelField($"No Results matched your query {searchString}.");
-                    }
-
-                    foreach (IEnumerable<IMaterialOption> row in loader.Results.Chunk(numPerRow))
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        foreach (IMaterialOption option in row)
-                        {
-                            option.OnGUI();
-                        }
-                        EditorGUILayout.EndHorizontal();
-                    }
+                    ShowResults(numPerRow);
                 }
 
                 foreach (IMaterialsAdapter adapter in adapters) {
@@ -118,6 +90,43 @@ namespace HestiaMaterialImporter.Editor
                 }
             }
             EditorGUILayout.EndVertical();
+        }
+
+        private void ShowResults(int numPerRow) {
+            if (!loader.completed)
+            {
+                EditorGUILayout.LabelField("Loading...");
+            }
+            if (loader.completed && loader.Results.Count() == 0)
+            {
+                EditorGUILayout.LabelField($"No Results matched your query {searchString}.");
+            }
+
+            foreach (IEnumerable<IMaterialOption> row in loader.Results.Chunk(numPerRow))
+            {
+                EditorGUILayout.BeginHorizontal();
+                foreach (IMaterialOption option in row)
+                {
+                    option.OnGUI();
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        private void OnSearchButton(string newSearchString)
+        {
+            searchString = newSearchString;
+            if (loader == null || loader.thread?.ThreadState == ThreadState.Stopped)
+            {
+                loader = new ResultLoader()
+                {
+                    searchString = searchString,
+                    adapters = adapters,
+                };
+
+                loader.thread = new Thread(new ThreadStart(loader.LoadResults));
+                loader.thread.Start();
+            }
         }
     }
 }

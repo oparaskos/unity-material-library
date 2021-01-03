@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using HestiaMaterialImporter.Extensions;
 using HestiaMaterialImporter.Core;
 using HestiaMaterialImporter.Editor;
+using System.Text.RegularExpressions;
 
 namespace HestiaMaterialImporter.Local
 {
@@ -31,22 +32,49 @@ namespace HestiaMaterialImporter.Local
             }
         }
 
-        public async Task<List<IMaterialOption>> GetMaterialsInPath(string path)
+        public async Task<List<Task<IMaterialOption>>> GetMaterialsInPath(string path, string search)
         {
-            var example = await LocalMaterialOption.Create("test", favicon);
-            return new List<IMaterialOption>() { example };
+            var results = new List<Task<IMaterialOption>>();
+            DirectoryInfo di = new DirectoryInfo(path);
+            if (!di.Exists) {
+                Debug.LogWarningFormat("Library Path '{0}' does not exist", path);
+                return results;
+            }
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                if (file.Attributes.HasFlag(FileAttributes.Directory)) continue;
+                if (file.Extension != ".zip") continue;
+
+                string name = file.Name.Trim();
+                name = Regex.Replace(name, @".zip$", "", RegexOptions.IgnoreCase).Trim();
+                name = Regex.Replace(name, @"[_\-.]", " ", RegexOptions.IgnoreCase).Trim();
+                name = Regex.Replace(name, @"\b(jpg|png)\b", "", RegexOptions.IgnoreCase).Trim();
+                name = Regex.Replace(name, @"\b\dk\b", "", RegexOptions.IgnoreCase).Trim();
+                name = Regex.Replace(name, @"([A-Z0-9]+)", " $1").Trim();
+                name = Regex.Replace(name, @"\s+", " ").Trim();
+
+                string searchString = Regex.Replace(search ?? " ", @"\s+", " ")?.Trim()?.ToLower();
+                if (!name.ToLower().Contains(searchString)) continue;
+    
+                results.Add(LocalMaterialOption.Create(name, favicon, file));
+            }
+            return results;
+
         }
         
-        public async Task<IEnumerable<IMaterialOption>> GetMaterials(string name)
+        public async Task<IEnumerable<Task<IMaterialOption>>> GetMaterials(string name)
         {
             if (settings?.m_LocalLibraryPaths != null) {
-                IEnumerable<Task<List<IMaterialOption>>> tasks = settings.m_LocalLibraryPaths.ToList().Select(path => GetMaterialsInPath(path));
-                List<IMaterialOption> results = (await Task.WhenAll(tasks))
+                IEnumerable<Task<List<Task<IMaterialOption>>>> tasks = settings.m_LocalLibraryPaths
+                    .ToList()
+                    .Select(path => GetMaterialsInPath(path, name));
+                List<Task<IMaterialOption>> results = (await Task.WhenAll(tasks))
                     .SelectMany(i => i)
                     .ToList();
                 return results;
             }
-            return new List<IMaterialOption>();
+            return new List<Task<IMaterialOption>>();
         }
     }
 }

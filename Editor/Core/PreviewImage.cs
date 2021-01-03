@@ -47,6 +47,23 @@ namespace HestiaMaterialImporter.Core
 			return new IconPreviewImage(iconName);
 		}
 
+		public static PreviewImage LoadTextureAtPath(string path) {
+			return new TexturePreviewImage(path);
+		}
+
+		public class TexturePreviewImage : PreviewImage {
+			private string path;
+			public TexturePreviewImage(string path) {
+				this.path = path;
+			}
+
+			public override Texture2D ToTexture2D() {
+				if (textureContent == null)
+	            	textureContent = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
+
+				return textureContent;
+			}
+		}
 		public class IconPreviewImage : PreviewImage {
 			private string iconName;
 			public IconPreviewImage(string iconName) {

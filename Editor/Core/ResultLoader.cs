@@ -11,8 +11,8 @@ namespace HestiaMaterialImporter.Core
     [Serializable]
     public class ResultLoader
     {
-        private IEnumerable<IMaterialOption> _results;
-        private IEnumerable<Task<IEnumerable<IMaterialOption>>> _tasks;
+        private IEnumerable<Task<IMaterialOption>> _results;
+        private IEnumerable<Task<IEnumerable<Task<IMaterialOption>>>> _tasks = new List<Task<IEnumerable<Task<IMaterialOption>>>>();
         public bool _completed = false;
         public bool failed = false;
         public string searchString;
@@ -32,13 +32,26 @@ namespace HestiaMaterialImporter.Core
         {
             get
             {
-                if(_results != null) {
-                    return _results?.Select(it => it.InitOnMainThread());
+                try {
+                    if(_results != null) {
+                        return _results.Select(it => it.Result.InitOnMainThread());
+                    }
+                    return _tasks
+                        .Where(task => task.IsCompleted)
+                        .Where(task => !task.IsCanceled)
+                        .Where(task => !task.IsFaulted)
+                        .Where(task => task.Status == TaskStatus.RanToCompletion)
+                        .SelectMany(task => task.Result)
+                        .Where(task => task.IsCompleted)
+                        .Where(task => !task.IsCanceled)
+                        .Where(task => !task.IsFaulted)
+                        .Where(task => task.Status == TaskStatus.RanToCompletion)
+                        .Select(it => it.Result.InitOnMainThread());
+                } catch(Exception e) {
+                    Debug.LogException(e);
+                    failed = true;
+                    return new List<IMaterialOption>();
                 }
-                return _tasks
-                    .Where(task => task.IsCompleted)
-                    .SelectMany(task => task.Result)
-                    .Select(it => it.InitOnMainThread());
             }
         }
 
@@ -49,9 +62,14 @@ namespace HestiaMaterialImporter.Core
             try
             {
                 _tasks = adapters
-                    .Select(it => it.GetMaterials(searchString));
-                _results = Task.WhenAll(_tasks).Result.SelectMany(it => it);
+                    .Select(it => it.GetMaterials(searchString))
+                    .ToList();
+                Debug.Log("Loading results");
+                _results = Task.WhenAll(_tasks).Result
+                    .SelectMany(i => i)
+                    .ToList();
                 _completed = true;
+                Debug.Log("Finished Gathering Results");
             }
             catch (Exception e)
             {
