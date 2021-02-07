@@ -13,16 +13,8 @@ namespace HestiaMaterialImporter.CC0
     {
         private CC0Asset asset;
 
-        protected override void DoImport()
+        protected override void DoImport(string texturePath, string materialPath)
         {
-            // Ensure folder heirarchy
-            EditorUtility.DisplayProgressBar("Importing", "Creating Folders...", 0f);
-            string texturePath = $"{Application.dataPath}/Textures/{name}/";
-            Debug.Log($"Textures will be stored at '{texturePath}'");
-            texturePath.MakeParents();
-            string materialPath = $"{Application.dataPath}/Materials/";
-            Debug.Log($"Materials will be stored at '{materialPath}'");
-            materialPath.MakeParents();
 
             // Download the ZIP
             string downloadUrl = asset.Downloads[variants[selectedVariant]].RawDownloadLink;

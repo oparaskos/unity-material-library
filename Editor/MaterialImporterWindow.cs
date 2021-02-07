@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using System.Threading;
-using HestiaMaterialImporter.CC0;
 using HestiaMaterialImporter.Core;
 using HestiaMaterialImporter.Extensions;
 using System;
@@ -16,15 +15,16 @@ namespace HestiaMaterialImporter.Editor
 #endif
     public class MaterialImporterWindow : EditorWindow
     {
-
         string searchString;
         Vector2 scrollPos;
 
         [NonSerialized]
         IMaterialsAdapter[] adapters = {
-            new CC0MaterialsAdapter()
+            new CC0.CC0MaterialsAdapter(),
+            new Local.LocalLibraryAdapter()
         };
         ResultLoader loader = null;
+        HestiaSettings hestiaSettings;
 
         [MenuItem("Window/Material Importer")]
         static void Open()
@@ -37,6 +37,7 @@ namespace HestiaMaterialImporter.Editor
         {
             titleContent = new GUIContent("Material Importer");
             titleContent.image = EditorGUIUtility.IconContent("PreMatSphere", "Material Importer").image;
+
         }
 
         private void OnKeyPress(KeyDownEvent evt)
@@ -44,9 +45,14 @@ namespace HestiaMaterialImporter.Editor
             Debug.Log(evt);
         }
 
+
         void OnGUI()
         {
-
+            foreach (var adapter in adapters)
+            {
+                adapter.OnActivate();
+            }
+            hestiaSettings = HestiaSettings.GetOrCreateSettings();
             GUIStyle s = new GUIStyle(GUI.skin.textField)
             {
                 fontSize = 25,
@@ -54,21 +60,10 @@ namespace HestiaMaterialImporter.Editor
             EditorGUILayout.BeginHorizontal("Box");
             string newSearchString = EditorGUILayout.DelayedTextField(searchString, s, GUILayout.Height(30));
             if (
-                newSearchString != searchString || 
+                newSearchString != searchString ||
                 GUILayout.Button(EditorGUIUtility.IconContent("Search Icon", "|Search"), GUILayout.Height(30), GUILayout.Width(30)))
             {
-                searchString = newSearchString;
-                if (loader == null || loader.thread?.ThreadState == ThreadState.Stopped)
-                {
-                    loader = new ResultLoader()
-                    {
-                        searchString = searchString,
-                        adapters = adapters,
-                    };
-
-                    loader.thread = new Thread(new ThreadStart(loader.LoadResults));
-                    loader.thread.Start();
-                }
+                OnSearchButton(newSearchString);
             }
             EditorGUILayout.EndHorizontal();
 
@@ -85,28 +80,53 @@ namespace HestiaMaterialImporter.Editor
                 {
                     EditorGUILayout.LabelField("Something went wrong!");
                 }
-                else if (loader.completed)
-                {
-                    if (loader.Results.Count() == 0)
-                        EditorGUILayout.LabelField($"No Results matched your query {searchString}.");
-
-                    foreach (IEnumerable<IMaterialOption> row in loader.Results.Chunk(numPerRow))
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        foreach (IMaterialOption option in row)
-                        {
-                            option.OnGUI();
-                        }
-                        EditorGUILayout.EndHorizontal();
-                    }
-                }
                 else
                 {
-                    EditorGUILayout.LabelField("Loading...");
+                    ShowResults(numPerRow);
                 }
-                EditorGUILayout.LabelField("Please donsider donating to cc0textures.com on patreon");
+
+                foreach (IMaterialsAdapter adapter in adapters) {
+                    adapter.OnGUI();
+                }
             }
             EditorGUILayout.EndVertical();
+        }
+
+        private void ShowResults(int numPerRow) {
+            if (!loader.completed)
+            {
+                EditorGUILayout.LabelField("Loading...");
+            }
+            if (loader.completed && loader.Results.Count() == 0)
+            {
+                EditorGUILayout.LabelField($"No Results matched your query {searchString}.");
+            }
+
+            foreach (IEnumerable<IMaterialOption> row in loader.Results.Chunk(numPerRow))
+            {
+                EditorGUILayout.BeginHorizontal();
+                foreach (IMaterialOption option in row)
+                {
+                    option.OnGUI();
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        private void OnSearchButton(string newSearchString)
+        {
+            searchString = newSearchString;
+            if (loader == null || loader.thread?.ThreadState == ThreadState.Stopped)
+            {
+                loader = new ResultLoader()
+                {
+                    searchString = searchString,
+                    adapters = adapters,
+                };
+
+                loader.thread = new Thread(new ThreadStart(loader.LoadResults));
+                loader.thread.Start();
+            }
         }
     }
 }

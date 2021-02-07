@@ -36,16 +36,16 @@ namespace HestiaMaterialImporter.Core
             return new Result() { entry = candidate };
         }
 
-        private static readonly string[] albedoNames = { "color", "base", "albedo", "colour" };
+        private static readonly string[] albedoNames = { "color", "base", "albedo", "colour", "col", "diffuse", "diff", "basecolor" };
         public static readonly ImageNames Albedo = new ImageNames() { canonicalName = "Albedo", names = albedoNames };
 
         private static readonly string[] roughnessNames = { "roughness", "rough", "smooth", "smoothness" };
         public static readonly ImageNames Smoothness = new ImageNames() { canonicalName = "Smoothness", names = roughnessNames };
 
-        private static readonly string[] normalNames = { "normal", "nrm", "tangent" };
+        private static readonly string[] normalNames = { "normal", "nrm", "tangent", "nor" };
         public static readonly ImageNames Normal = new ImageNames() { canonicalName = "Normal", names = normalNames, importType = TextureImporterType.NormalMap };
 
-        private static readonly string[] aoNames = { "ao", "ambientocclusion", "ambient_occlusion" };
+        private static readonly string[] aoNames = { "ao", "ambientocclusion", "ambient_occlusion", "occ" };
         public static readonly ImageNames AmbientOcclusion = new ImageNames() { canonicalName = "AmbientOcclusion", names = aoNames };
 
         private static readonly string[] dispNames = { "disp", "displacement", "bump" };
